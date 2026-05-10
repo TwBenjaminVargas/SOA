@@ -1,0 +1,51 @@
+services:
+  node-red:
+    image: nodered/node-red:4.1.7
+    container_name: node-red
+    environment:
+      - TZ=America/Argentina/Buenos_Aires
+      - NODE_OPTIONS=--dns-result-order=ipv4first
+    restart: unless-stopped
+    networks:
+      - tp_telegram
+    volumes:
+      - ./NodeRed:/data
+    ports:
+      - "1880:1880"
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+    volumes:
+      - ./MongoDB:/data/db
+    networks:
+      - tp_telegram
+
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    restart: unless-stopped
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password123
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb
+    networks:
+      - tp_telegram
+  
+networks:
+  tp_telegram:
+    driver: bridge

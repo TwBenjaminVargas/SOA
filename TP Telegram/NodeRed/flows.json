@@ -1,0 +1,1397 @@
+[
+    {
+        "id": "a2e7ddb659bc6d2e",
+        "type": "tab",
+        "label": "Test",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6bca37907a962a3f",
+        "type": "tab",
+        "label": "Sistema de notas telegram",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "9855236dddc2e950",
+        "type": "telegram bot",
+        "botname": "Notas Bot",
+        "usernames": "",
+        "chatids": "",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "addressfamily": "4",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksprotocol": "socks5",
+        "socksport": 6667,
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "0.0.0.0",
+        "localbotport": 8443,
+        "publicbotport": 8443,
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "08a49e55fd0d1eac",
+        "type": "mongodb4-client",
+        "name": "mongodb",
+        "protocol": "mongodb",
+        "hostname": "mongodb",
+        "port": "",
+        "dbName": "notes",
+        "appName": "",
+        "authSource": "",
+        "authMechanism": "DEFAULT",
+        "tls": false,
+        "tlsCAFile": "",
+        "tlsCertificateKeyFile": "",
+        "tlsInsecure": false,
+        "connectTimeoutMS": "30000",
+        "socketTimeoutMS": "0",
+        "minPoolSize": "0",
+        "maxPoolSize": "100",
+        "maxIdleTimeMS": "0",
+        "uri": "",
+        "advanced": "{}",
+        "uriTabActive": "tab-uri-simple"
+    },
+    {
+        "id": "0c12111e3dffa8ab",
+        "type": "debug",
+        "z": "a2e7ddb659bc6d2e",
+        "name": "debug 1",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "94cb191d91c0c351",
+        "type": "telegram command",
+        "z": "a2e7ddb659bc6d2e",
+        "d": true,
+        "name": "",
+        "command": "/help",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": true,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 280,
+        "wires": [
+            [
+                "0c12111e3dffa8ab"
+            ],
+            [
+                "39f5b69c2a869cc1"
+            ]
+        ]
+    },
+    {
+        "id": "39f5b69c2a869cc1",
+        "type": "function",
+        "z": "a2e7ddb659bc6d2e",
+        "name": "function 1",
+        "func": "msg.payload = {\n    content:\"Hola\",\n    type: \"message\",\n    chatId:8271600441,\n\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9d4d782f6083bbd5",
+        "type": "inject",
+        "z": "a2e7ddb659bc6d2e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 420,
+        "wires": [
+            [
+                "39f5b69c2a869cc1"
+            ]
+        ]
+    },
+    {
+        "id": "595ba66091f814bd",
+        "type": "mongodb4",
+        "z": "a2e7ddb659bc6d2e",
+        "clientNode": "08a49e55fd0d1eac",
+        "mode": "collection",
+        "collection": "notes",
+        "operation": "insertOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 460,
+        "y": 540,
+        "wires": [
+            [
+                "385bbe4674b35a51"
+            ]
+        ]
+    },
+    {
+        "id": "b4dcab9292c62669",
+        "type": "inject",
+        "z": "a2e7ddb659bc6d2e",
+        "name": "nota",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"nota\":\"esto es una nota inyectada manualmente\"}",
+        "payloadType": "json",
+        "x": 250,
+        "y": 540,
+        "wires": [
+            [
+                "595ba66091f814bd"
+            ]
+        ]
+    },
+    {
+        "id": "385bbe4674b35a51",
+        "type": "debug",
+        "z": "a2e7ddb659bc6d2e",
+        "name": "debug 3",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "e4e2d92b97924390",
+        "type": "telegram command",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "command": "/nota",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 90,
+        "y": 200,
+        "wires": [
+            [
+                "652f1ba41c64e1a1"
+            ]
+        ]
+    },
+    {
+        "id": "73ebd74347524405",
+        "type": "telegram sender",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "bot": "9855236dddc2e950",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 1025,
+        "y": 120,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "10d4d8a82b9b883d",
+        "type": "link in",
+        "z": "6bca37907a962a3f",
+        "name": "telegram_send",
+        "links": [
+            "d992eb6a7685dbea",
+            "353a6238fcb0640d",
+            "f7233e224d00c1cf",
+            "6f2aefc3d5035e94",
+            "91414149de13ee77",
+            "6a826f9499a2e653"
+        ],
+        "x": 795,
+        "y": 120,
+        "wires": [
+            [
+                "c69e5c66d0d91e8b"
+            ]
+        ]
+    },
+    {
+        "id": "c9f6cb63eff6ae5e",
+        "type": "mongodb4",
+        "z": "6bca37907a962a3f",
+        "clientNode": "08a49e55fd0d1eac",
+        "mode": "collection",
+        "collection": "notes",
+        "operation": "insertOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 440,
+        "y": 500,
+        "wires": [
+            [
+                "723636ec6433900f"
+            ]
+        ]
+    },
+    {
+        "id": "652f1ba41c64e1a1",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "insertar nota",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.operation",
+                "pt": "msg",
+                "to": "insertOne",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "mongo.nota",
+                "pt": "msg",
+                "to": "payload.content",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "telegram.chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 200,
+        "wires": [
+            [
+                "072bb8da5f0904f5"
+            ]
+        ]
+    },
+    {
+        "id": "845ec056046535c5",
+        "type": "switch",
+        "z": "6bca37907a962a3f",
+        "name": "switch operation",
+        "property": "mongo.operation",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "insertOne",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "find",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "deleteOne",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "search",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "findOne",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 200,
+        "y": 540,
+        "wires": [
+            [
+                "88f22fc678f1da68"
+            ],
+            [
+                "5abece031324acf7"
+            ],
+            [
+                "cd5e9b7433964e45"
+            ],
+            [
+                "e22c0e98b0e0e883"
+            ],
+            [
+                "673a1536bc4677f9"
+            ]
+        ]
+    },
+    {
+        "id": "728a6cae573f33d6",
+        "type": "link in",
+        "z": "6bca37907a962a3f",
+        "name": "mongo_in",
+        "links": [
+            "072bb8da5f0904f5",
+            "ecb4395e44af1cae",
+            "7616845fc9b847c0",
+            "17a61e742fb5129d",
+            "fd05dbafd8274af4",
+            "113a288301d8d879"
+        ],
+        "x": 65,
+        "y": 540,
+        "wires": [
+            [
+                "845ec056046535c5"
+            ]
+        ]
+    },
+    {
+        "id": "072bb8da5f0904f5",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "comand1_out",
+        "mode": "link",
+        "links": [
+            "728a6cae573f33d6"
+        ],
+        "x": 355,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "88f22fc678f1da68",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.nota",
+                "pt": "msg",
+                "to": "mongo.nota",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 335,
+        "y": 500,
+        "wires": [
+            [
+                "c9f6cb63eff6ae5e"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "723636ec6433900f",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.output.insertOneResult",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "output.message",
+                "pt": "msg",
+                "to": "\"✅ <b>¡Nota registrada con éxito!</b>\\n\\n\" &\t\"🆔 ID de referencia:\\n\" & \t\"<code>\" & $replace($string(payload.insertedId), \"\\\"\", \"\") & \"</code>\\n\\n\" &\t\"<i>Toca el ID para copiarlo.</i>\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 535,
+        "y": 500,
+        "wires": [
+            [
+                "d992eb6a7685dbea"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "d992eb6a7685dbea",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "mongo_out",
+        "mode": "link",
+        "links": [
+            "10d4d8a82b9b883d"
+        ],
+        "x": 605,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c69e5c66d0d91e8b",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "msg format",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload.content",
+                "pt": "msg",
+                "to": "output.message",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.type",
+                "pt": "msg",
+                "to": "message",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.chatId",
+                "pt": "msg",
+                "to": "telegram.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.options",
+                "pt": "msg",
+                "to": "{\"parse_mode\": \"HTML\"}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 920,
+        "y": 120,
+        "wires": [
+            [
+                "73ebd74347524405"
+            ]
+        ]
+    },
+    {
+        "id": "3328a7302bd71d17",
+        "type": "telegram command",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "command": "/notas",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 90,
+        "y": 280,
+        "wires": [
+            [
+                "12ac3a56c26bd6c4"
+            ]
+        ]
+    },
+    {
+        "id": "12ac3a56c26bd6c4",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "buscar notas",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.operation",
+                "pt": "msg",
+                "to": "find",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "telegram.chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 280,
+        "wires": [
+            [
+                "ecb4395e44af1cae"
+            ]
+        ]
+    },
+    {
+        "id": "ecb4395e44af1cae",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "comand1_out",
+        "mode": "link",
+        "links": [
+            "728a6cae573f33d6"
+        ],
+        "x": 355,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "b2c41e2153429b8c",
+        "type": "mongodb4",
+        "z": "6bca37907a962a3f",
+        "clientNode": "08a49e55fd0d1eac",
+        "mode": "collection",
+        "collection": "notes",
+        "operation": "find",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "",
+        "x": 430,
+        "y": 600,
+        "wires": [
+            [
+                "a3eaf8dd8988edab"
+            ]
+        ]
+    },
+    {
+        "id": "5abece031324acf7",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 335,
+        "y": 600,
+        "wires": [
+            [
+                "b2c41e2153429b8c"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "a3eaf8dd8988edab",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.output.findResult",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "output.message",
+                "pt": "msg",
+                "to": "\"<b>📋 Listado de notas:</b>\\n\\n\" & $join(payload.(\t    \"🔹 <b>Nota:</b> \" & nota & \"\\n\" &\t    \"🆔 ID: <code>\" & $replace($string(_id), \"\\\"\", \"\") & \"</code>\\n\"\t), \"\\n\")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 535,
+        "y": 600,
+        "wires": [
+            [
+                "353a6238fcb0640d"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "353a6238fcb0640d",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "mongo_out",
+        "mode": "link",
+        "links": [
+            "10d4d8a82b9b883d"
+        ],
+        "x": 605,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "66b9c29e15c9ac51",
+        "type": "telegram command",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "command": "/help",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 90,
+        "y": 120,
+        "wires": [
+            [
+                "d3843daacc308a3c"
+            ]
+        ]
+    },
+    {
+        "id": "ad855794113d497e",
+        "type": "mongodb4",
+        "z": "6bca37907a962a3f",
+        "clientNode": "08a49e55fd0d1eac",
+        "mode": "collection",
+        "collection": "notes",
+        "operation": "deleteOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": true,
+        "name": "",
+        "x": 430,
+        "y": 680,
+        "wires": [
+            [
+                "31cfc61108a9540b"
+            ]
+        ]
+    },
+    {
+        "id": "d433856c7f1d00a4",
+        "type": "telegram command",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "command": "/delete",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 90,
+        "y": 380,
+        "wires": [
+            [
+                "d336adf6e92a7cad"
+            ]
+        ]
+    },
+    {
+        "id": "d336adf6e92a7cad",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "borrar nota",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.operation",
+                "pt": "msg",
+                "to": "deleteOne",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "telegram.chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "mongo.notaId",
+                "pt": "msg",
+                "to": "$trim(payload.content)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 380,
+        "wires": [
+            [
+                "7616845fc9b847c0"
+            ]
+        ]
+    },
+    {
+        "id": "7616845fc9b847c0",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "comand1_out",
+        "mode": "link",
+        "links": [
+            "728a6cae573f33d6"
+        ],
+        "x": 355,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "cd5e9b7433964e45",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{     \"_id\": $trim($replace($string(mongo.notaId), \"\\\"\", \"\"))   }",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 325,
+        "y": 680,
+        "wires": [
+            [
+                "ad855794113d497e"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "31cfc61108a9540b",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.output.deleteResult",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "output.message",
+                "pt": "msg",
+                "to": "payload.deletedCount > 0 \t? \"🗑️ <b>¡Nota eliminada!</b>\\n\\nEl registro con ID <code>\" & $replace($string(mongo.notaId), \"\\\"\", \"\") & \"</code> ha sido borrado con éxito.\"\t: \"⚠️ <b>Error al eliminar</b>\\n\\nNo se encontró ninguna nota con el ID <code>\" & $replace($string(mongo.notaId), \"\\\"\", \"\") & \"</code> o ya fue eliminada.\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 545,
+        "y": 680,
+        "wires": [
+            [
+                "f7233e224d00c1cf"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "f7233e224d00c1cf",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "mongo_out",
+        "mode": "link",
+        "links": [
+            "10d4d8a82b9b883d"
+        ],
+        "x": 605,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "3d9c071b89a2ea3a",
+        "type": "mongodb4",
+        "z": "6bca37907a962a3f",
+        "clientNode": "08a49e55fd0d1eac",
+        "mode": "collection",
+        "collection": "notes",
+        "operation": "find",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": false,
+        "name": "search",
+        "x": 430,
+        "y": 780,
+        "wires": [
+            [
+                "6f8bdb260f523c63"
+            ]
+        ]
+    },
+    {
+        "id": "e22c0e98b0e0e883",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[   {     \"nota\": {       \"$regex\": $trim(mongo.searchBy),        \"$options\": \"i\"     }   },   {     \"sort\": { \"_id\": -1 },     \"limit\": 10   } ]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 325,
+        "y": 780,
+        "wires": [
+            [
+                "3d9c071b89a2ea3a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "6f8bdb260f523c63",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.output.searchResult",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "output.message",
+                "pt": "msg",
+                "to": "\"<b>🔍 Coincidencias encontradas:</b>\\n\\n\" & $join(payload.(\t    \"📝 <b>Nota:</b> <i>\" & $trim(nota) & \"</i>\\n\" &\t    \"🆔 <code>\" &$replace($string(_id), \"\\\"\", \"\") & \"</code>\\n\"\t), \"\\n\")",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 525,
+        "y": 780,
+        "wires": [
+            [
+                "6f2aefc3d5035e94"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "6f2aefc3d5035e94",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "mongo_out",
+        "mode": "link",
+        "links": [
+            "10d4d8a82b9b883d"
+        ],
+        "x": 585,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "586176e2d0b7f214",
+        "type": "telegram command",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "command": "/search",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 450,
+        "y": 120,
+        "wires": [
+            [
+                "099a6352f75d5d8d"
+            ]
+        ]
+    },
+    {
+        "id": "099a6352f75d5d8d",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "buscar nota",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.operation",
+                "pt": "msg",
+                "to": "search",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "telegram.chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "mongo.searchBy",
+                "pt": "msg",
+                "to": "payload.content",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 120,
+        "wires": [
+            [
+                "17a61e742fb5129d"
+            ]
+        ]
+    },
+    {
+        "id": "17a61e742fb5129d",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "comand1_out",
+        "mode": "link",
+        "links": [
+            "728a6cae573f33d6"
+        ],
+        "x": 715,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "28b2f6fa4e3ce2d6",
+        "type": "telegram command",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "command": "/send",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 450,
+        "y": 220,
+        "wires": [
+            [
+                "5010abaec34887c4"
+            ]
+        ]
+    },
+    {
+        "id": "5010abaec34887c4",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "enviar nota",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.operation",
+                "pt": "msg",
+                "to": "findOne",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "telegram.chatId",
+                "pt": "msg",
+                "to": "$trim($split($trim(payload.content), \" \")[1])",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "mongo.notaId",
+                "pt": "msg",
+                "to": "$trim($split($trim(payload.content), \" \")[0])",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 220,
+        "wires": [
+            [
+                "fd05dbafd8274af4"
+            ]
+        ]
+    },
+    {
+        "id": "fd05dbafd8274af4",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "comand1_out",
+        "mode": "link",
+        "links": [
+            "728a6cae573f33d6"
+        ],
+        "x": 715,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "82c5ba97a86ee36a",
+        "type": "mongodb4",
+        "z": "6bca37907a962a3f",
+        "clientNode": "08a49e55fd0d1eac",
+        "mode": "collection",
+        "collection": "notes",
+        "operation": "findOne",
+        "output": "toArray",
+        "maxTimeMS": "0",
+        "handleDocId": true,
+        "name": "findOne",
+        "x": 420,
+        "y": 860,
+        "wires": [
+            [
+                "d01dd325097c0ee3"
+            ]
+        ]
+    },
+    {
+        "id": "673a1536bc4677f9",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "[   {     \"_id\": $trim($replace($string(mongo.notaId), \"\\\"\", \"\"))   } ]",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 325,
+        "y": 860,
+        "wires": [
+            [
+                "82c5ba97a86ee36a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "d01dd325097c0ee3",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.output.findOneResult",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "output.message",
+                "pt": "msg",
+                "to": "\"<b>📌 Nota recuperada:</b>\\n\\n\" & \"📝 <i>\" & $trim(payload.nota) & \"</i>\\n\\n\" & \"🆔 <code>\" & $replace($string(payload._id), \"\\\"\", \"\") & \"</code>\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 525,
+        "y": 860,
+        "wires": [
+            [
+                "91414149de13ee77"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "91414149de13ee77",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "mongo_out",
+        "mode": "link",
+        "links": [
+            "10d4d8a82b9b883d"
+        ],
+        "x": 585,
+        "y": 860,
+        "wires": []
+    },
+    {
+        "id": "d3843daacc308a3c",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "insertar nota",
+        "rules": [
+            {
+                "t": "set",
+                "p": "telegram.chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "output.message",
+                "pt": "msg",
+                "to": "\"<b>📚 Guía de Comandos del Bot</b>\\n\\n\" & \"📝 <code>/nota {texto}</code>\\n\" & \"<i>Guarda una nueva nota.</i>\\n\\n\" &  \"📋 <code>/notas</code>\\n\" & \"<i>Muestra el listado de todas tus notas.</i>\\n\\n\" &  \"🆔 <code>/get {id}</code>\\n\" & \"<i>Recupera el contenido completo de una nota.</i>\\n\\n\" &  \"🔍 <code>/search {texto}</code>\\n\" & \"<i>Busca notas por palabras clave.</i>\\n\\n\" &  \"🗑️ <code>/delete {id}</code>\\n\" & \"<i>Elimina una nota permanentemente.</i>\\n\\n\" &  \"✉️ <code>/send {idNota} {idTelegram}</code>\\n\" & \"<i>Envía una nota a otro usuario de Telegram.</i>\\n\\n\" &  \"────────────────\\n\" & \"💡 <i>Tip: Puedes tocar los comandos en azul para escribirlos o los IDs para copiarlos.</i>\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 120,
+        "wires": [
+            [
+                "6a826f9499a2e653"
+            ]
+        ]
+    },
+    {
+        "id": "6a826f9499a2e653",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "mongo_out",
+        "mode": "link",
+        "links": [
+            "10d4d8a82b9b883d"
+        ],
+        "x": 355,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3527f513bb4806ed",
+        "type": "telegram command",
+        "z": "6bca37907a962a3f",
+        "name": "",
+        "command": "/get",
+        "description": "",
+        "registercommand": false,
+        "language": "",
+        "scope": "default",
+        "bot": "9855236dddc2e950",
+        "strict": false,
+        "hasresponse": false,
+        "useregex": false,
+        "removeregexcommand": false,
+        "outputs": 1,
+        "x": 450,
+        "y": 320,
+        "wires": [
+            [
+                "9d9efac92cf14580"
+            ]
+        ]
+    },
+    {
+        "id": "9d9efac92cf14580",
+        "type": "change",
+        "z": "6bca37907a962a3f",
+        "name": "enviar nota",
+        "rules": [
+            {
+                "t": "set",
+                "p": "mongo.operation",
+                "pt": "msg",
+                "to": "findOne",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "telegram.chatId",
+                "pt": "msg",
+                "to": "payload.chatId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "mongo.notaId",
+                "pt": "msg",
+                "to": "payload.message",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 320,
+        "wires": [
+            [
+                "113a288301d8d879"
+            ]
+        ]
+    },
+    {
+        "id": "113a288301d8d879",
+        "type": "link out",
+        "z": "6bca37907a962a3f",
+        "name": "comand1_out",
+        "mode": "link",
+        "links": [
+            "728a6cae573f33d6"
+        ],
+        "x": 725,
+        "y": 320,
+        "wires": []
+    }
+]
