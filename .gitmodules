@@ -1,0 +1,3 @@
+[submodule "TP OpenCode"]
+	path = TP OpenCode
+	url = https://github.com/TwBenjaminVargas/SOA-OpenCode.git
