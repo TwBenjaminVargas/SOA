@@ -1,0 +1,11 @@
+services:
+  http-server:
+    image: http-server:v1
+    container_name: http-server
+    volumes:
+      - ./:/www
+    environment:
+      BEN_PORT: "${BEN_PORT}"
+    ports:
+      - "${BEN_PORT}:${BEN_PORT}"
+    restart: unless-stopped
