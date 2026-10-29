@@ -1,3 +1,6 @@
 [submodule "TP OpenCode"]
 	path = TP OpenCode
 	url = https://github.com/TwBenjaminVargas/SOA-OpenCode.git
+[submodule "tp_final"]
+	path = tp_final
+	url = https://github.com/agostinaperez/soa-facial-recognition.git
